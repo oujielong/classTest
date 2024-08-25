@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>考试主页</title>
+        <link rel="stylesheet"
+            href="/assets/css/elementUI.css">
+        <script src="/assets/js/vue2.js"></script>
+        <script src="/assets/js/axios.js"></script>
+        <script src="/assets/js/elementUI.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <el-container>
+                <el-header>
+                    Unit test entry
+                </el-header>
+                <el-main>
+                    <el-row>
+                        <el-col :span="3">
+                            <el-tag type="success">language</el-tag>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-select v-model="language"
+                                placeholder="select the clsss">
+                                <el-option v-for="item in languageList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="3">
+                            <el-tag type="success">Unit</el-tag>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-select v-model="unit"
+                                placeholder="select the clsss">
+                                <el-option v-for="item in unitList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="3">
+                            <el-button @click="getUnitest"
+                                type="primary">Fetch Unit Test</el-button>
+                        </el-col>
+                    </el-row>
+                    <el-divider content-position="center">THE content below need to provide</el-divider>
+                    这里放个统计图
+
+                </el-main>
+            </el-container>
+        </div>
+    </body>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                language: "EN",
+                languageList: [ {
+                    value: "EN", label: "EN"
+                },
+                {
+                    value: "CHINESE", label: "CHINESE"
+                } ],
+                unit: "",
+                unitList: [ {
+                    value: "Unit 1", label: "Unit1"
+                }, {
+                    value: "Unit 2", label: "Unit2"
+                }, {
+                    value: "Unit 3", label: "Unit3"
+                } ]
+
+            },
+            computed: {
+
+            },
+            methods: {
+                async getUnitest() {
+                    const rest = await axios.get("http://localhost:3000/ajax/getUnit");
+                    // 假设这是你的API请求  
+                    const htmlPath = rest.data.htmlUrl;
+                    // 在新标签页中打开URL  
+                    window.open(htmlPath, '_blank');
+
+                }
+            }
+        });
+    </script>
+
+</html>

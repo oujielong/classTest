@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>Worksheet 1</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+            }
+
+            section {
+                margin-bottom: 20px;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+            }
+
+            .form-group input[type="text"] {
+                width: 200px;
+                padding: 8px;
+            }
+
+            .submit-btn {
+                padding: 10px 20px;
+                cursor: pointer;
+            }
+        </style>
+        <script src="/assets/testFile/common.js"></script>
+        <script src="/assets/js/axios.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+        <!-- <script>        // 获取答案并且回填
+            //获取正确的答案，并展示
+            async function fetchAnswer() {
+                try {
+                    let UserAnswer = await axios.get('http://localhost:3000/ajax/getUserAnswer');
+                    debugger
+                    let answerdetail = UserAnswer.data.answers;
+                    Object.keys(answerdetail).forEach(key => {
+                        document.querySelector(`input[id=${ key }]`).value = answerdetail[ key ];
+                    });
+                } catch (error) {
+                }
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                alert("DOM 加载完成");
+                fetchAnswer()
+                // fetchAnswer()
+            });  
+        </script> -->
+    </head>
+
+    <body>
+
+        <section>
+            <h2>Section 1: Write the plural of each word</h2>
+            <div class="form-group">
+                <label for="girl-plural">girl:</label>
+                <input type="text"
+                    id="girl-plural"
+                    name="girl-plural">
+            </div>
+            <div class="form-group">
+                <label for="man-plural">man:</label>
+                <input type="text"
+                    id="man-plural"
+                    name="man-plural">
+            </div>
+            <div class="form-group">
+                <label for="woman-plural">woman:</label>
+                <input type="text"
+                    id="woman-plural"
+                    name="woman-plural">
+            </div>
+            <!-- Additional form groups can be added here -->
+        </section>
+
+        <section>
+            <h2>Section 2: Put 'a' or 'an' where necessary</h2>
+            <!-- Assuming this section requires manual input based on understanding, not shown as direct form input -->
+            <!-- You might need to adjust this section based on actual requirements -->
+        </section>
+
+        <section>
+            <h2>Section 3: Circle the correct word to complete the sentence</h2>
+            <!-- Since HTML doesn't support "circling" text directly, we'll use radio buttons -->
+            <div class="form-group">
+                <p>The girl (is / are) running.</p>
+                <input type="radio"
+                    id="girl-is"
+                    name="girl-running"
+                    value="is">
+                <label for="girl-is">is</label>
+                <input type="radio"
+                    id="girl-are"
+                    name="girl-running"
+                    value="are">
+                <label for="girl-are">are</label>
+            </div>
+            <div class="form-group">
+                <!-- Additional radio button groups for other sentences can be added here -->
+            </div>
+        </section>
+
+        <button class="submit-btn"
+            onclick="submitAnswers()">Submit Answers</button>
+
+        <script>
+            function submitAnswers() {
+                // Gather answers from inputs  
+                const answers = {
+                    'girl-plural': document.getElementById('girl-plural')?.value,
+                    'man-plural': document.getElementById('man-plural')?.value,
+                    'woman-plural': document.getElementById('woman-plural')?.value,
+                    'girl-running': document.querySelector('input[name="girl-running"]:checked')?.value,
+                };
+
+                // Using axios to send answers to your backend API  
+                axios.post('http://localhost:3000/ajax/postUnitTestResult', {
+                    unit: "1",
+                    lesson: "1",
+                    worksheet: "1",
+                    answers: answers
+                })
+                    .then(response => {
+                        alert("Your answer has been submit");
+                    }).catch(error => {
+                        console.error('Error submitting answer:', error);
+                        alert('Failed to submit answers. Please try again later.');
+                    });
+            }
+        </script>
+
+    </body>
+
+</html>
